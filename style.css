@@ -1,0 +1,74 @@
+.header {
+  background-color: #423332;
+  font-size: 55px;
+  color: ivory;
+  text-align: center;
+  padding-bottom: 25px;
+}
+
+.input-fields {
+  width: 200;
+  height: auto;
+  background-color: rgb(236, 236, 228);
+}
+.display-fields {
+  width: 200;
+  height: auto;
+  /* background-color: green; */
+}
+
+.search {
+  border-radius: 20%;
+  background-color: #4073e3;
+  color: ivory;
+}
+
+.cities {
+  margin-top: 35px;
+  margin-bottom: 25px;
+}
+
+.main-display {
+  max-width: 52.5rem;
+  margin-bottom: 25px;
+  margin-top: 25px;
+  margin-left: 10px;
+}
+
+.forecastMain {
+  margin-top: 25px;
+}
+
+.forecast {
+  margin: 35px, -10px, 25px, -10px;
+  position: relative;
+}
+
+.f2 {
+  position: relative;
+  left: 10px;
+}
+
+.f3 {
+  position: relative;
+  left: 20px;
+}
+
+.f4 {
+  position: relative;
+  right: -30px;
+}
+
+.f5 {
+  position: relative;
+  right: -40px;
+}
+
+.footer {
+  width: 100%;
+  background-color: #423332;
+  color: ivory;
+  text-align: center;
+  position: fixed;
+  bottom: 1px;
+}
