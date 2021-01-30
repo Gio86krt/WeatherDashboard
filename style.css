@@ -7,14 +7,12 @@
 }
 
 .input-fields {
-  width: 200;
-  height: auto;
+  min-height: 600px;
   background-color: rgb(236, 236, 228);
 }
 .display-fields {
   width: 200;
   height: auto;
-  /* background-color: green; */
 }
 
 .search {
@@ -71,4 +69,8 @@
   text-align: center;
   position: fixed;
   bottom: 1px;
+}
+
+.countrypicker {
+  margin-top: 15px;
 }
