@@ -42,14 +42,17 @@ function searchCity(input, country) {
   promise.catch((err) => {
     alert("City-Country combination not found");
     $("#input").val("");
-    // console.log(err);
   });
 
   function forecast(lat, lon) {
     let urlForecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=hourly,minutely&appid=92cffb5aa4dfffbc9ea400306c454207`;
     $.getJSON(urlForecast, function (data) {
-      $(".uvIndex").html(`UV Index: ${data.current.uvi}`);
+      let bgcolor = checkUv(data.current.uvi); //
+      $(".uvIndex").html(
+        `UV Index: <span class='uv' ${bgcolor}>${data.current.uvi}</span>`
+      );
       console.log(data);
+      $("#cardForecast").html("");
       for (let i = 1; i <= days; i++) {
         $("#cardForecast").append(`
                 <div class="card text-white bg-primary mb-3 forecast f${i}" style="max-width: 10rem;">
@@ -62,7 +65,7 @@ function searchCity(input, country) {
                                 <p class="temp">Temperature: ${
                                   data.daily[i - 1].temp.day + " °Celsius"
                                 }</p>
-                                <p class="umidity">Umidity: ${
+                                <p class="humidity">Humidity: ${
                                   data.daily[i - 1].humidity
                                 }</p>
                                 
@@ -74,8 +77,10 @@ function searchCity(input, country) {
   }
 }
 
-function storeInputs(entries) {
-  if (!arrInputs.includes(entries)) {
+function storeInputs(...entries) {
+  arrInputs = JSON.parse(localStorage.arrInputs);
+  let flatArr = arrInputs.flat();
+  if (!flatArr.includes(entries)) {
     arrInputs.push(entries);
     localStorage.arrInputs = JSON.stringify(arrInputs);
   }
@@ -84,6 +89,13 @@ function storeInputs(entries) {
 function searchAgain(event) {
   const [city, country] = event.target.innerHTML.split(",");
   searchCity(city, country);
+}
+
+function checkUv(index) {
+  if (index >= 8) return 'style="background-color: red;"';
+  if (index >= 6) return 'style="background-color: orange;"';
+  if (index > 2) return 'style="background-color: yellow;"';
+  if (index <= 2) return 'style="background-color: green;"';
 }
 
 $(".search").on("click", getInputs);
