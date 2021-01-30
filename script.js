@@ -4,13 +4,20 @@ let arrInputs = [];
 
 let days = 5;
 
-async function searchCity(input) {
-  input = document.querySelector("#input").value;
+function getInputs() {
+  let input = document.querySelector("#input").value;
   let country = $(".countrypicker").val();
+  if (!input) {
+    alert("Please insert a valid city");
+    return "return";
+  }
+  searchCity(input, country);
+}
+
+function searchCity(input, country) {
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${input},${country}&units=metric&appid=92cffb5aa4dfffbc9ea400306c454207`;
   // let url = `http://api.openweathermap.org/data/2.5/weather?q=toronto,CA&units=metric&appid=92cffb5aa4dfffbc9ea400306c454207`; /////////////
-  if (!input && !country) alert("please insert a valid input");
-  $.getJSON(url, function (data) {
+  let promise = $.getJSON(url, function (data) {
     console.log(data);
     var icon = `<img src='https://openweathermap.org/img/w/${data.weather[0].icon}.png'>`;
     $(".name").html(data.name + " " + today + " " + icon);
@@ -24,11 +31,18 @@ async function searchCity(input) {
     $(".humidity").html("Humidity: " + data.main.humidity);
     $(".wind").html("Wind-speed: " + data.wind.speed);
     $("#cities").append(
-      `<li class="list-group-item">${data.name}, ${country}</li>`
+      `<li class="list-group-item" onClick="searchAgain(event)">${data.name}, ${country}</li>`
     );
     forecast(lat, lon);
     $(".display-fields").removeClass("d-none");
-    if (!localStorage.arrInputs.includes(input)) storeInputs([input, country]);
+    storeInputs([input, country]); /////////////////
+    $("#input").val("");
+  });
+
+  promise.catch((err) => {
+    alert("City-Country combination not found");
+    $("#input").val("");
+    // console.log(err);
   });
 
   function forecast(lat, lon) {
@@ -58,11 +72,18 @@ async function searchCity(input) {
       }
     });
   }
+}
 
-  function storeInputs(entries) {
+function storeInputs(entries) {
+  if (!arrInputs.includes(entries)) {
     arrInputs.push(entries);
-    localStorage.arrInputs = arrInputs;
+    localStorage.arrInputs = JSON.stringify(arrInputs);
   }
 }
 
-$(".search").on("click", searchCity);
+function searchAgain(event) {
+  const [city, country] = event.target.innerHTML.split(",");
+  searchCity(city, country);
+}
+
+$(".search").on("click", getInputs);
