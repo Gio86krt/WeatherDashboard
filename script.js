@@ -6,7 +6,6 @@ tomorrow.setDate(new Date().getDate() + 1);
 let day = tomorrow.getDate();
 let month = tomorrow.getMonth();
 let year = tomorrow.getFullYear();
-// let stringTomorrow = "${day + i}/${month + 1}/${year}";
 
 let days = 5;
 
@@ -22,7 +21,7 @@ function getInputs() {
 
 function searchCity(input, country) {
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${input},${country}&units=metric&appid=92cffb5aa4dfffbc9ea400306c454207`;
-  // let url = `http://api.openweathermap.org/data/2.5/weather?q=toronto,CA&units=metric&appid=92cffb5aa4dfffbc9ea400306c454207`; /////////////
+
   let promise = $.getJSON(url, function (data) {
     console.log(data);
     var icon = `<img src='https://openweathermap.org/img/w/${data.weather[0].icon}.png'>`;
@@ -36,12 +35,9 @@ function searchCity(input, country) {
     $(".temp").html("Temperature: " + data.main.temp + " °Celsius");
     $(".humidity").html("Humidity: " + data.main.humidity);
     $(".wind").html("Wind-speed: " + data.wind.speed);
-    $("#cities").append(
-      `<li class="list-group-item" onClick="searchAgain(event)">${data.name}, ${country}</li>`
-    );
     forecast(lat, lon);
     $(".display-fields").removeClass("d-none");
-    storeInputs([input, country]); /////////////////
+    storeInputs(`${data.name}-${country}`);
     $("#input").val("");
   });
 
@@ -85,18 +81,27 @@ function searchCity(input, country) {
   }
 }
 
-function storeInputs(...entries) {
-  arrInputs = JSON.parse(localStorage.arrInputs);
-  let flatArr = arrInputs.flat();
-  if (!flatArr.includes(entries)) {
+function storeInputs(entries) {
+  console.log(entries);
+  if (!arrInputs.includes(entries)) {
+    console.log(!arrInputs.includes(entries));
     arrInputs.push(entries);
-    localStorage.arrInputs = JSON.stringify(arrInputs);
-  }
+    localStorage.localInputs = arrInputs;
+    addTolist(entries);
+  } else return;
+}
+
+function addTolist(entries) {
+  let string = entries.split("-");
+  // console.log(string);
+  $("#cities").append(
+    `<li class="list-group-item" onClick="searchAgain(event)">${string[0].trim()}, ${string[1].trim()}</li>`
+  );
 }
 
 function searchAgain(event) {
   const [city, country] = event.target.innerHTML.split(",");
-  searchCity(city, country);
+  searchCity(city.trim(), country.trim());
 }
 
 function checkUv(index) {
@@ -106,4 +111,13 @@ function checkUv(index) {
   if (index <= 2) return 'style="background-color: green;"';
 }
 
+function loadList() {
+  if (localStorage.localInputs) {
+    arrInputs = localStorage.localInputs.split(",");
+    arrInputs.forEach((el) => addTolist(el));
+    // console.log(arrInputs);
+  }
+}
+
 $(".search").on("click", getInputs);
+$(window).on("load", loadList);
