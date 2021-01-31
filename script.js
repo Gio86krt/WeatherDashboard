@@ -95,7 +95,7 @@ function addTolist(entries) {
   let string = entries.split("-");
   // console.log(string);
   $("#cities").append(
-    `<li class="list-group-item" onClick="searchAgain(event)">${string[0].trim()}, ${string[1].trim()}</li>`
+    `<li class="list-group-item" style="cursor: pointer;" onClick="searchAgain(event)">${string[0].trim()}, ${string[1].trim()}</li>`
   );
 }
 
