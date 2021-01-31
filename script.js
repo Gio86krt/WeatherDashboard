@@ -1,6 +1,12 @@
 let today = moment().format("DD/MM/YY");
-let followingDays = Number(moment().format("DD"));
 let arrInputs = [];
+
+let tomorrow = new Date();
+tomorrow.setDate(new Date().getDate() + 1);
+let day = tomorrow.getDate();
+let month = tomorrow.getMonth();
+let year = tomorrow.getFullYear();
+// let stringTomorrow = "${day + i}/${month + 1}/${year}";
 
 let days = 5;
 
@@ -56,7 +62,9 @@ function searchCity(input, country) {
       for (let i = 1; i <= days; i++) {
         $("#cardForecast").append(`
                 <div class="card text-white bg-primary mb-3 forecast f${i}" style="max-width: 10rem;">
-                      <div class="card-header">${followingDays + i}</div>
+                      <div class="card-header">${day + i - 1}/${
+          month + 1
+        }/${year}</div>
                             <div class="card-body">
                                 
                                 <p class="icon"><img src='https://openweathermap.org/img/w/${
