@@ -10,8 +10,8 @@
 
 - On page reload the local storage is scanned for data, if some inputs are stored the list is inserted;
 
-[Repository-Link]()\
-[WeatherDashboard]()
+[Repository-Link](https://github.com/Gio86krt/WeatherDashboard)\
+[WeatherDashboard](https://gio86krt.github.io/WeatherDashboard/)
 
 ![Screenshot1](/screenshots/first.png)
 ![Screenshot2](/screenshots/second.png)
