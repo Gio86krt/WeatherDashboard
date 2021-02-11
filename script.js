@@ -20,7 +20,7 @@ function getInputs() {
 }
 
 function searchCity(input, country) {
-  let url = `http://api.openweathermap.org/data/2.5/weather?q=${input},${country}&units=metric&appid=92cffb5aa4dfffbc9ea400306c454207`;
+  let url = `https://api.openweathermap.org/data/2.5/weather?q=${input},${country}&units=metric&appid=92cffb5aa4dfffbc9ea400306c454207`;
 
   let promise = $.getJSON(url, function (data) {
     console.log(data);
